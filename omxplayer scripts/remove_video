@@ -1,0 +1,36 @@
+#### Begin of declared functions ####
+function list_contains_item() {
+  local target="$1"
+  shift
+  for item in "$@"; do
+    if [ "$item" == "$target" ]; then
+	return 1
+    fi
+  done
+  return 0
+}
+#### End of declared functions ####
+
+
+#remove recieved videos
+for video_path in "$@"; do
+    rm "$video_path"
+done
+
+#remove video names from the playlist
+IFS=$'\n' read -d '' -r -a list < /tmp/playlist
+count=${#list[@]}
+> /tmp/playlist
+index=0
+while [ $index -lt $count ]
+do
+	path=${list[$index]}
+	list_contains_item "$path" "$@"
+	if [ $? == 0 ]; then
+		printf "%s\n" "$path" >> /tmp/playlist 		
+	else
+		printf "%s\n" "@#%""$path" >> /tmp/playlist	
+	fi
+	((index++))
+done
+echo "Removed!"

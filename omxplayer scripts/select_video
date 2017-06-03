@@ -1,0 +1,17 @@
+#get the name of selected video passed as param
+video_name=$1
+#get the playlist
+IFS=$'\n' read -d '' -r -a list < /tmp/playlist
+count=${#list[@]}
+index=0
+while [ $index -lt $count ]
+do
+	vid_name=${list[$index]}
+	if [ "$vid_name" == "$video_name" ]; then
+		break;
+	fi
+	((index++))
+done
+((index--))
+echo $index > /tmp/indexlog
+killall omxplayer.bin

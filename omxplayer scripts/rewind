@@ -1,0 +1,1 @@
+sudo echo -n $'\x1B\x5B\x44' > /tmp/omxpipe

@@ -1,0 +1,6 @@
+IFS=$'\n' read -d '' -r -a list < /tmp/playlist
+#add the current playing video to the list
+current=$(</tmp/filelog)
+length=${#list[@]}
+list[$length]="$current"
+printf "%s\n" "${list[@]}"

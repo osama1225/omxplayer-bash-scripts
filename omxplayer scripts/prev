@@ -1,0 +1,27 @@
+vid_index=$(</tmp/indexlog)
+if [ "$vid_index" -gt 0 ]; then
+	((vid_index--))
+
+	#check the prev one if it's removed
+	IFS=$'\n' read -d '' -r -a list < /tmp/playlist
+	index=0
+	while [ $index -lt $vid_index ]
+	do
+		((index++))
+	done
+	while [ $index -gt 0 ]
+	do
+		if [[ ${list[$index]} == *"@#%"* ]]
+		then
+			((index--))
+		else
+			break
+		fi
+	done	
+
+	((index--))
+	echo $index > /tmp/indexlog
+else
+	echo -1 > /tmp/indexlog
+fi
+killall omxplayer.bin

@@ -1,0 +1,2 @@
+sudo echo -n p > /tmp/omxpipe 
+echo -n "s" > /tmp/pauselog
